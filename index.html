@@ -281,6 +281,26 @@
 
   /* ---------- Contact ---------- */
   #contact{text-align:center;}
+  /* ---------- Contact success modal ---------- */
+  #successOverlay{
+    position:fixed;inset:0;z-index:2000;display:none;align-items:center;justify-content:center;
+    background:rgba(11,14,20,0.75);backdrop-filter:blur(6px);
+  }
+  #successOverlay.show{display:flex;}
+  .success-card{
+    background:var(--bg-elevated);border:1px solid var(--panel-border);border-radius:16px;
+    padding:40px 36px;max-width:380px;width:90%;text-align:center;
+    box-shadow:0 24px 60px -20px rgba(0,0,0,0.6);
+    animation:successPop .35s cubic-bezier(.2,.7,.2,1);
+  }
+  @keyframes successPop{from{opacity:0;transform:translateY(12px) scale(.97);}to{opacity:1;transform:translateY(0) scale(1);}}
+  .success-icon{
+    width:56px;height:56px;border-radius:50%;margin:0 auto 20px;
+    background:var(--violet-soft);display:flex;align-items:center;justify-content:center;
+    color:var(--violet);
+  }
+  .success-card h3{font-family:var(--display);font-size:20px;font-weight:600;margin-bottom:10px;color:var(--text);}
+  .success-card p{color:var(--text-dim);font-size:14.5px;line-height:1.6;margin-bottom:24px;}
   .contact-inner{max-width:640px;margin:0 auto;}
   .contact-form{display:flex;flex-direction:column;gap:16px;margin-top:40px;text-align:left;}
   .contact-form input, .contact-form textarea{
@@ -725,6 +745,16 @@
     </div>
   </div>
 </section>
+  <div id="successOverlay">
+  <div class="success-card">
+    <div class="success-icon">
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M20 6 9 17l-5-5"/></svg>
+    </div>
+    <h3>Thanks!</h3>
+    <p>The form was submitted successfully. I'll get back to you soon.</p>
+    <button class="btn btn-primary magnetic" id="closeSuccessBtn" style="border:none;">Close</button>
+  </div>
+</div>
 
 <footer>
   <div>© 2026 Gangothri D Joy. Built with care.</div>
@@ -848,7 +878,42 @@ async function typeTerminal(){
 function sleep(ms){ return new Promise(r => setTimeout(r, ms)); }
 setTimeout(typeTerminal, 900);
 
+const contactForm = document.getElementById('contactForm');
+contactForm.addEventListener('submit', function(e){
+  e.preventDefault();
+  const btn = this.querySelector('button');
+  const original = btn.textContent;
+  btn.textContent = 'Sending…';
+  btn.disabled = true;
 
+  fetch(this.action, {
+    method: 'POST',
+    body: new FormData(this),
+    headers: { 'Accept': 'application/json' }
+  })
+  .then(response => {
+    if (response.ok) {
+      document.getElementById('successOverlay').classList.add('show');
+      contactForm.reset();
+    } else {
+      alert('Something went wrong. Please try emailing me directly at gangothrid03@gmail.com.');
+    }
+  })
+  .catch(() => {
+    alert('Something went wrong. Please try emailing me directly at gangothrid03@gmail.com.');
+  })
+  .finally(() => {
+    btn.textContent = original;
+    btn.disabled = false;
+  });
+});
+
+document.getElementById('closeSuccessBtn').addEventListener('click', () => {
+  document.getElementById('successOverlay').classList.remove('show');
+});
+document.getElementById('successOverlay').addEventListener('click', (e) => {
+  if (e.target.id === 'successOverlay') e.target.classList.remove('show');
+});
 // ---------- Resume button placeholder ----------
 
 </script>
