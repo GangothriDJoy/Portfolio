@@ -712,12 +712,12 @@
     <div class="eyebrow reveal" style="justify-content:center;">Contact</div>
     <h2 class="section-title reveal">Let's build <span class="accent">something</span>.</h2>
     <p class="reveal" style="color:var(--text-dim);">Open to internships, full-time roles, and collaborative projects. The fastest way to reach me is email.</p>
-    <form class="contact-form reveal" id="contactForm">
-      <input type="text" placeholder="Your name" required>
-      <input type="email" placeholder="Your email" required>
-      <textarea placeholder="What are you building?" required></textarea>
-      <button type="submit" class="btn btn-primary magnetic" style="align-self:flex-start;border:none;">Send message →</button>
-    </form>
+    <form class="contact-form reveal" id="contactForm" action="https://formspree.io/f/mwvdyoby" method="POST">
+  <input type="text" name="name" placeholder="Your name" required>
+  <input type="email" name="email" placeholder="Your email" required>
+  <textarea name="message" placeholder="What are you building?" required></textarea>
+  <button type="submit" class="btn btn-primary magnetic" style="align-self:flex-start;border:none;">Send message →</button>
+</form>
     <div class="contact-details reveal">
       <div class="contact-detail"><div class="label">Email</div><div class="val">gangothrid03@gmail.com</div></div>
       <div class="contact-detail"><div class="label">Phone</div><div class="val">+91 8078116828</div></div>
@@ -848,18 +848,6 @@ async function typeTerminal(){
 function sleep(ms){ return new Promise(r => setTimeout(r, ms)); }
 setTimeout(typeTerminal, 900);
 
-// ---------- Contact form (client-side only placeholder) ----------
-document.getElementById('contactForm').addEventListener('submit', function(e){
-  e.preventDefault();
-  const btn = this.querySelector('button');
-  const original = btn.textContent;
-  btn.textContent = 'Message ready: opening email…';
-  const name = this.querySelectorAll('input')[0].value;
-  const email = this.querySelectorAll('input')[1].value;
-  const msg = this.querySelector('textarea').value;
-  window.location.href = `mailto:gangothrid03@gmail.com?subject=Portfolio contact from ${encodeURIComponent(name)}&body=${encodeURIComponent(msg + '\\n\\nFrom: ' + email)}`;
-  setTimeout(() => { btn.textContent = original; this.reset(); }, 2200);
-});
 
 // ---------- Resume button placeholder ----------
 
