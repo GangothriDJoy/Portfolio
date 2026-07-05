@@ -75,7 +75,7 @@
   #backToTop{
     position:fixed;bottom:28px;right:28px;z-index:800;
     height:46px;padding:0 14px;border-radius:23px;border:1px solid var(--panel-border);
-    background:linear-gradient(135deg,var(--violet),#5f3fe0);color:#fff;
+    background:linear-gradient(135deg,var(--violet),#5f3fe0);color:#fff;opacity:0.4;
     display:flex;align-items:center;justify-content:center;cursor:pointer;overflow:hidden;
     opacity:0;visibility:hidden;transform:translateY(10px);
     transition:opacity .3s ease, transform .3s ease, visibility .3s ease, box-shadow .25s ease, padding .35s ease;
@@ -83,7 +83,7 @@
   }
   #backToTop.show{opacity:1;visibility:visible;transform:translateY(0);}
   #backToTop:hover{box-shadow:0 12px 26px -6px rgba(124,92,255,0.8);transform:translateY(-2px);}
-  #backToTop svg{flex-shrink:0; opacity:0.3; }
+  #backToTop svg{flex-shrink:0;}
   #backToTop .btt-label{
     max-width:0;opacity:0;overflow:hidden;white-space:nowrap;margin-left:0;
     font-family:var(--body);font-weight:600;font-size:13.5px;
