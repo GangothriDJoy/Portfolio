@@ -72,7 +72,21 @@
 
   /* ---------- Scroll progress ---------- */
   #progress{position:fixed;top:0;left:0;height:2px;background:linear-gradient(90deg,var(--violet),var(--coral));z-index:1000;width:0%;transition:width .1s linear;}
-
+  #backToTop{
+    position:fixed;bottom:28px;left:28px;z-index:800;
+    width:46px;height:46px;border-radius:50%;border:1px solid var(--panel-border);
+    background:linear-gradient(135deg,var(--violet),#5f3fe0);color:#fff;
+    display:flex;align-items:center;justify-content:center;cursor:pointer;
+    opacity:0;visibility:hidden;transform:translateY(10px);
+    transition:opacity .3s ease, transform .3s ease, visibility .3s ease, box-shadow .25s ease;
+    box-shadow:0 8px 20px -6px rgba(124,92,255,0.6);
+  }
+  #backToTop.show{opacity:1;visibility:visible;transform:translateY(0);}
+  #backToTop:hover{box-shadow:0 12px 26px -6px rgba(124,92,255,0.8);transform:translateY(-2px);}
+  @media (max-width:600px){
+    #backToTop{bottom:20px;left:20px;width:42px;height:42px;}
+  }
+  
   /* ---------- Nav ---------- */
   nav{
     position:fixed;top:0;left:0;right:0;z-index:900;
@@ -96,6 +110,14 @@
   .nav-links a.active{color:var(--text);}
   .nav-links a.active::after{width:100%;}
   .nav-toggle{display:none;background:none;border:none;color:var(--text);font-size:22px;}
+  .nav-close{
+    display:none;position:absolute;top:24px;right:24px;background:none;border:none;
+    color:var(--text-dim);font-size:24px;cursor:pointer;transition:color .2s ease, transform .2s ease;
+  }
+  .nav-close:hover{color:var(--coral);transform:rotate(90deg);}
+  @media (max-width:860px){
+    .nav-links.open .nav-close{display:block;}
+  }
   @media (max-width:860px){
     .nav-links{position:fixed;top:0;right:-100%;width:min(320px,80vw);height:100vh;background:var(--bg-elevated);
       flex-direction:column;justify-content:center;align-items:flex-start;gap:26px;padding:40px;transition:right .4s ease;border-left:1px solid var(--panel-border);}
@@ -375,6 +397,9 @@
 
 <div id="loader"><div class="loader-text">booting portfolio<span class="bar"></span></div></div>
 <div id="progress"></div>
+  <button id="backToTop" aria-label="Back to top">
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+</button>
 
 <div class="cursor-dot" id="cursorDot"></div>
 <div class="cursor-ring" id="cursorRing"></div>
@@ -382,6 +407,7 @@
 <nav id="nav">
   <div class="logo">gdj<span>.dev</span></div>
   <ul class="nav-links" id="navLinks">
+  <button class="nav-close" id="navClose" aria-label="Close menu">✕</button>
     <li><a href="#about" data-nav>About</a></li>
     <li><a href="#skills" data-nav>Skills</a></li>
     <li><a href="#experience" data-nav>Experience</a></li>
@@ -441,7 +467,7 @@
       <div class="reveal">
         <p>I'm a Computer Science &amp; Engineering student at Rajiv Gandhi Institute of Technology, Kottayam, currently maintaining a CGPA of 8.89/10. My work sits at the intersection of building real applications, mostly in React, React Native, TypeScript and Firebase, and organizing the people and events that help other students start building too.</p>
         <p>Right now I'm interning in Generative AI &amp; Cloud Computing at IBM CSRBOX and BharatCares under the AICTE–IBM SkillsBuild initiative, getting hands-on with model deployment, prompt engineering and cloud-based workflows. Outside of coursework and internships, I've spent the last three years in leadership roles across IEDC RIT, IEEE and ISTE, most recently as CEO of IEDC RIT, directing a 53-member team through 40+ technical and entrepreneurial initiatives.</p>
-        <p>I'm currently looking for opportunities as a <strong style="color:var(--text)">Software Engineer</strong>, <strong style="color:var(--text)">Website &amp; App Developer</strong>, or <strong style="color:var(--text)">Mobile App Developer</strong>, open to any role across the Computer Science &amp; Engineering domain where I can keep building and learning.</p>
+        <p>I'm currently looking for opportunities as a <strong style="color:var(--text)">Software Engineer</strong>, <strong style="color:var(--text)">Website &amp; WebApp Developer</strong>, or <strong style="color:var(--text)">Mobile App Developer</strong>, open to any role across the Computer Science &amp; Engineering domain where I can keep building and learning.</p>
       </div>
       <div class="timeline reveal">
         <div class="timeline-item">
@@ -590,7 +616,7 @@
     <div class="project-card reveal" style="--i:3" data-link="https://www.figma.com/design/fVdM0WNL5UKSPzSxu2dTNz/Untitled?node-id=226-5629&t=V8K5AzaYxN1t2r0Q-1">
       <div class="project-hero"><img src="data:image/webp;base64,UklGRiYbAABXRUJQVlA4IBobAACQnACdASqkAigBPlEokEajoiGhINJpuHAKCWdu/D65cQyP75/M/2w8eLtvlP67+0vtScw9yPqnxh/TfeD3g9heUN5P+yf6f7afm//XP9d7aP07/u/cG/Tv/Sf3L8he4b/YvQB/RP7f/yf917tn+s/2Hsg/X32AP5//Vfv/+Kr2Qv2w9gP+gf5f/3etz/5v9J8HP7Xf+T/P/Al+tf/P/PX5APQA6gfq//b/xr8KP7J+U/9t6X/2f/cboDxNfj/2e/K/1j9tPy++/n81/r/lA9m+AL+Pfy//L/lN+TPIqAA/Lv7N/o/y/8/f+09F/md+wD7Af6D/bf+Rxt9Ab+a/3L/df4b8pvkn/y/8t/nP299x/57/l/+d/lv878hn8t/q3++/un+S/9Xxpevr9v/Yp/Vr/zicDgVF3jSp6B4zOyp6B4zOyp6B4zOyp6B4zOyp6B4zOyp6B4zOyp6B4zOyp6B4zOyp6B4zOyp6B4zOyp6B4zMCVVDdMYVnd7T5VhLGMJbRpjM7KnoHjM7KnoHjM7Knny0ZTciSkJv389QdobGSbDOD3K838bnGlT0DxmdlT0DxmdlT0DunAQRaMqOeuaqbR4eqN9tpvhwKi7xpU9A8ZnZU9A8ZmSf/ZGfx6Mr+079KB0Mm16iLjwWfR2AcnYnXc5hmUQWjRFgwKi3YrLlQzVa3YbaMj1jxlPFPzqAT8yxpU1u6bVTgl92bzyqNdTUtoEfiDdkPZkY8KhOJQaH7Jn1MWIM1q75M8N7FaBr83adKAcaOzFk+vKO7sNrgyt9ZUSsw5L05jLzCd7yPm/mEy0yrBVH8iHcnpoid6CPcKooY/xvRreMK1r5HQOeP+hELYHAgL23Z7dv6aYCr7ZjM6i0CxwdaaMvRfTjGMz6mppV+h+EAAiMkwF1gtDOzYewioIVpvz5eC2mrPZZ6MBuxY+EJB+gt2p950AnEEyDpnpB93q0eGhdjSI8m6CkvRW81VXnrgLIxuUNxgpiXcaVPICSCsvsmaA9DxECrHK2N1tVRsixxFAwjEhW+ByGKV8HBXK+7WkdMFS0Xa6/n/MVm0714r5Vlh2PmrwsHtPwb+3bzy2pbuoKYzCdp0Ex+9yP/qHYNaONXCYPUojh6PtfwcrP204+Vs9YmM2VPPqEV4DzuJi9+SkNeCq53wpjmH49tZRHUmlKs1vCsxnetqBq3s/HVkt7BJGGQcDULlchm4b67buzKZRXk28wdxmqBGi+k5OllNJ+A6X03n8IL2TxsobAKTNU+S5D1ixYwyG5TADnCM3tpp3g8dWDyQH4FRFTEEjLGRyp94cEKIxXOu5AIQVEXbuB38q/Tp9wnXvR98xtSle25TbozeIf4RKmYKgcTIeGGg2tMgXoqK5Ly9qMGotTJ8w8sLnMbdXBjcIXztdgtFSKYOQNyFATCXlwMk+jJXtwKSMCpSYbjxmduhgVD+6a2eyTkvcSXzXOkYhVeLOCGR/LYoljBNYrI/URRZ/UwuyuWuHRY+LaSCxxI0VBT0DxmfnDgVF3jSp6B4zOyp6B4zOyp6B4zOyp6B4zOyp6B4zOyp6B4zOyp6B4zOyp6B4zOyp6B4zOyp6B4zOyp6B4zOyp6B4zOyp6B4zOyp6B4zOyp6B4zOyp6B4zOyp6B4zOyp6B4zOyp6B4zOyp6B4zOyp6B4zOyp6B4zOlAAP7/x2wAAAAAAGJE7gkSjF/5q+iu6gbjHQn5iVrcIRnyyHT+Dyzp+nzUicEQnwNFU8T9rdw56c4XtpyKjkiFvG0/qCkuqUUnzenpzhNNa71sUiIsJ4bz+FwEM0ND96mr4aVjRhDkAKh9kTw9vSOvC3iLvnIGp2CIorjX3HO/LExYLIFYWFYEQAMgrickQKNV7CW7STROe1u/Tshcuxoh3pt5dXBvLZ+4BPKHWiXy2xdGdv6KXlcOMsx50JksMzkwPYLvc0w7YDxbLNlr57Y+kGg/egseZv3B1OI819spuMHlMF8OHm9eWXluL7d7pTDY8aXfTO3sp/s01zxBTY/bXXz/+fLvQh2C3gANEniKfAu5qDLHl2RWkTrgVkJFVgfJoF3ZhqeBgMc6Rn9hj8HiUJ8rXBqn4aM22rD90vjFio4oUr9QtciT+eTVqtxFL/MnAJK6RdKgC5cUa9rVmQkFFLeKeosjBkLa1kHD+1oex2p1Gn4YzDFAYrdXcQjybQQ+cpuWVAeSudK/TtaqZpJ/7zzFWHfW8p1kMAIWRix9bH0SCwCuBg9QmQBOxk5wGQSFttIfb6jeWB/rZk7cB4mhICQc8lttXSaQu8jqnXcq9M4hJj0+IdAincc49QgEhUrDVw+7UKdk9aBbvGzavHjmi3iO6zriUpoLu1XrglM5Rrg/bfxTJlQ62+z+nYAE1IU5vLI2bM9G6Br06/7UUI/XL2R2Ruc5DBSJmKIzzBftC9+VogxHUy4cxerWG5jB2aGcIIiSyH++a4XIiXy+tLEznTqmnJniJwKsl/HAr76gB6M25+GVapID7qw58WqDfqJOaGMUZWydjz+89Loo4AXG+6mB+bK3b1q0XCl36mA4QFPntozTf8sbhAIg0pKL+7trgr4HJUaHYR9oSNzD8iEaJGep8R3b98urGt+qJsYtvzrXMUFnsAXpCSobc0GRR7cqyg6fBAW5T7nMyPPBVR/8huH3/HV5DkeHmcjYikkNBerjomKWNZwJUB6Qfn9aIjAux2oza1g/1vSz5XCL25+2jbVSrLwLZKbp39ifrqPd5O63uyIg9GPB6vnfjunC3by5nwuKfL+XbPwxhdvV8/9YXo8U+AAHUN+FjKOloSQRkt2FEhIug/1207DwqM2XIsKw1ZPM+ACeN/NGrjK8XY35+qorbXMrco9G1hwjfolfx3DE1mAFICH8fsukVHysLHOKCkYVlNaRyQBEQYIVcFbG0eXYEs/kPcftwxhmcl8rjWCGSV4LSMyuDB6epYQTBQ6vCKRv9sRDc//YB5fgzUENzA205yrAKGkBqAdxup5T22kjgr/EfGiaggC0dr8FttoZP4hpUPOu/DyWoBh6/0pcxbfkywtQFRYLbpEpNuxPw/KLAvzIqTkEmDHo3wJaFcNZTeUYpv1O5v4g251NeA7BhAN9bHoYRbtEngrak1H2r78FbX2aT8SHhy0hbvFZj+wUkXGJDLFqT8nufjlagMKndnbX+a2Ki8WTSTuGNQy2tewJD9iskyvW6Rn/p7y6d7uk9sTzXPb78KovRh8hs6q8YT8f2cV9GnE94j7XnrXCnNHi4WbDxQrXLxLm47ynx0bEozU3jC0XWcaaIxOmRKbHo2O11fwvbRQemoUUaR4HG3r6M3+4CCx/4QTzowPLQWkdrRz7JKunxyohyymR5w+DUKAPOy3OEa/aGQqCIGttx8yEkXrqeVr0kUaLIQgFvHmeYbT5bOSelrawj3JCua4kHu3fxQo2RKlDMbtJ3WpXnw9tfFF3zpOE40ywdiNwABmOpccuA0V/jNh7Ex6MJddS6TY0KpBBXuBZQrL6QraTQM4OASda3EtD8mqzEVW1+R1PCKBewLnK8dJMSPn+YCOHV+kB99BhdgFim0QEz2rk7CAdtg1wGW8SBJoFYDIf3Mrboz5YjK0DLMCqYhw7uKQnC0Y+/0MX/kPUzV0VzyjlUDmkhFWvCxewBV32REpRyUejz8uKEz7L20YawJH7d4yOiREZeHNLdkxkGA3M7/JLhCDEs4bvWdewu9rUTk+iJVda6CKJuSInVkTm4zv+YRlG8/FGJH6ipim+miroG+dxHW37YUUZMToC4VFFTKoAbpYgSemlgnge6og+YTUsH0WapK0xPVazX5opfjYopEekF7J4HLywycHYX8zFtGFVDM5K6MMRlWE/HZhkrLqqCNenp7W01LQP/nORtGm1XA9BjrczJP/JM3byr10nyj9Js0/J5ua7w7TGWLM2QGoyLDhYoUAZeZ4wEPLrIw169Mxx0a9KLZqOPKU2rjsAaooZHIE0COGsSw+rf8hOuvISZvu2NEW+11uMw79S2e5fdqbnnWoY/LW6YghHGVOe7l43vv4eaBY+OTyUYqiFoyjrkYHJHjHsjGxwW91DZUQQSyguZkzBzQ/nl0E+0wz+Mjb2wFRGV9MuFNwLjhsPpFyPT9smvf2Y/rqmbPs8ZKW7nRxFxZ+ecMc4qTY4BztwOQegqFHC0YTA1XsDxTzeXg+OG3z3rxvp6rc3GMfk5UVl1r4p8+/GNhjlktCbH+yN+i2FTM0vCmNbb06wr4mczVt1LJtx3FyyRoMleWj7TjK6i2XKszWTKx53t6j6pKw7v49q7TPJ/mBAmQkN8wM88oNZcMuEcrrP48FFhcLFHBq4+mfMZModXHBLdp+o3sK/IHxcPDjZ/S9PBW6m1kEKkVAu+3TKtb5NOklZMbxMHBo1Jvkqz1H54QhwWOywH+pmATKlskpWeCRFiGm2UukO/1dT6+TOoe95V1vq08DdFWOtFYY4R5P44OsBqIFfTTE+VgBjLTVwyxBk4DRRP6NKO+a45iJffK2ggZUmCi6T0kwtKmKiy0R6Vgq82ToaHZ+WF/iPcy+v6IVqu/TqdScM7qnR/1UBZX2eDDGD/NlmhbBy2aSyc8nE6DiIVwhD05//zZZH/zv7g3Nl7jgyW3CXMWjE7qt9vyRRV7SgKUyks0zMYgWYeM2zhPeT/xZqOuX+QXMLNbqq6LImQ8eXmjpupMISQI3rz9/O5HvF0fl/yCx3YVRbfD8B5aiq0mjKx0z18LaJGf/XBiUsSuPhYZmIKJ7LdKRv62vdCyQGHt8VxYRrW6IXmild/rEuaC1WwNgW0r0M+u8Ce//rW67frjqS1Bkaa3Mrr0Xb/Ro2BOUwcgs3mAOV949/8BkzWo0SF4UIU2lfJ2gi6IjYPLfdThYp9rEn9nl28Vk8n356vuMQX44m2VZ0BS4MiT7ozKaGwxju60sPBnOzvhfSQZEUwev3/aX3aEvsDUmvBX/E77SzUxIr+Q9HlU8914DLxhvAmZuY1Xm72k3LBwnwO7VoKSMpnVMEXMfA5pUg3AyldMcF2dHZZPSxp0ffElmzZKwc8QpncaA7qnkvTG4HGb8/l5zZwJI1EQTZ6wEGO9DEBHS0TNhDuXff4Y0abDsD0BUHhQGbzcKGLYyjl0awjqy9g9joUeMreADkdYZ+iBBh50jN+j4YICrteUGlJfUlzvoIGk9AW4wu6X+u9Xe0AnfifDumUBKgyRztshOhxTJl4k+bLwYmQZz/y9Ad6TyrdExaGUP5bJrO5OLTv7Eu6o+1iW7bAcEgSmIYwOeZt2BzJzcNaennAYvrbZVVYsCvYhaGHB3M+bwrTjnggN1T2OJ2sGnxkUhIZgM/p/4H7TwQuAOOOJ6QENj3ChTWuGxMxSodmsAqMJ33SQdJdSjBjmUJk3v0xEziP/d58DsqNpYURrzWwJXt4teon19g4bfZYX78y1pECydyAhsIMeujSLVvVMe64ai1bjpclLdydd43P7G7o6+U+t6OKVVWVcY3Fxm4aVWJswSEa63HjtOA5m3QGdnIjJ0FFF3vGB+zK4Cgt5bS6tZQudqnp/OZzX8y62T8FcEO6LOZ6lsZLGXaycPkcack/fxu7Q3eO+jFs/7I0RkkjwyPs8nwbTBKhl35A8N+BXyE7RoBWeolkO3X0Bon5ffB4K5SwvXsk5zrHaJireoTqYfWPNEhfwyAInD/Im6PV2DZ359FRSq6QtROYfF/eTP8tlhMPbXZLz7aT+UZMwgt5iTqWxmqHIXYBWZHNrCeqYVBZk0nIdK8JIelV69mqZDiazPI7LHqTtg4VhKWrvxHi9XyslP2/k5icDwayPRKhzD1JDabp5W4Uf0SdUzufVOVZfIWNYrxyYuF4XWBF1wxVWT/JrRX/kD3IrOa1ZiBvMlghuqJuo9fcup8Xl609nOLZKnjxh/3MW6XhfdL/u1z4gWxY2+EBV0rk3H6Ft69JnOQTw1W1X7+hq9zguoFlRn3qyCN8IvXTKI329xaB8R4aGKwH7FFwzqzpcRKN+Aoal7OvhX/GLPfIf9wt2PG3d4BrClXdKvW+ZYRfZwDjSCJNElrYGIPJYRbmeNhWN04b977h61hC5L15h5zZl4PqTw/fyFFnUpp7lmpxmrspf04Tm2Dxbg4RR9y3s1H01kESmuxX75zISe5OJn3XWWDypqPClVtWVNtqUDJqj5HP/q0pxGDptMuyeCGUjGoXtJanPRFHO9Fzl7dltnOD25KSbzRkif9nnFzmgz3/yVI2aHp1j/TumB+RHzg0YzaUxhhHppG1fStGv50glOXJhSgYwbCRbSh3vNgmIoxUtyw/mv8NEWSDZbkwDD0o3iilpEFs21xviGB33f/MCu8h/GsiWXUsJdjw8A7C2Fyr5ofNoOTaL3vC/x82DGjGORv6dSLSFBKB68wBtVuUEPm1uuiiuxuQfGdc9gn+hC4bQY8u/IsU+m+HVKJfDRUScoUYZBpCs5GzBAiTnph9Jr8jxqDYydFpw5RY8KCk0E3sQwL8AMxX4Ulh1PTaJAYbnolusA/skynfQF47YBdVxbGegrkTwgsnKT+47sesK8JL8W58SbjHlrkClz8j+FkAMbsI6arTgEBhox4CjlNCRephS0wqblrwlytJmMPVTCE+5nahf2eP/a30jgu4f2H7m6vXQM4i2ar6I9WXgKnnQ8V3WCHgK8aejb/FaI4GkBpjPLdBB2FiHEW3+7/0F8tCXLvyfEIs1giwvxDBCQwe/73YdMDN4DHALSljTK+PNzf6GYs6wJrdjKJbvuXGDzhKjUaE8IJkapSWnjuvKZmdpbTUPsD3PVFsvszZMvdlK8PpbeygqF+0x6fb6pLNUpTQuV43Lgb0j7OkcS1OGoiIDKYmjLSBDvVH9nBmIDdgtSppUaB4jq0ljH5tIvE45ptgxpnFJ32D/6+rxchXytI5BtKaQWrLn/cJFRR3AME7peFWQL7W/CcRN6+Os08S03flX+L33HQ9eK9o1qP0kfcVp7LdmzOuisJEl1rgAITGfPiQq0A0bTQ6XCjD8MRMhQCaW0MrhB6HsPnYI2sRd5h7rpfWsnoWLUjr2fqplpB6IcgQYt59qwobcI+DX2YynxDpChnMNxNIv0Lf4PNF/Pis+JUA/gbek1J/6NSja27Oi5oDgV/164/tLtk9EBzZ89ivLfOZNOmMuZuutHyvowFr75TKvV/KU3xwIjMBHmHPL+D/COmEL+iayZd6c6oNxsOdjtP1NtYlAy7dPm/px4WTjqWnGv0PnTtf0sNdJCPCbGxpKE6g3uUOJeDy5L64pUxAf7wPwP3k8WGIsLOImqvHozdICvj+hDj3eFM/+kCiCtvjAwJ5hk6vZVy6Q6qbYs1E54RrY/P6tW7lZUu19AGD+qj9TFOoNGf734B4UfFxp5MpJK1I6vg1UDEfBlRIjZ9F4G/HSGqwyJdMPR0N+9iWmI5+ohxbXZn9qhBrH/mWMCIET+5hCGQUI7PCy4yPT56BkGDMbd9JFL8noRdUWlsgFeyGYUE0AdJOwlxOESoRVEL9q5ScTvjHf3xMi1qN7cTF/SOQx9EDE0o4nUK2BAspUUzO14+aoD7e/6sgZy61N9KAr06H3/5YpUXeSFK0Wg6lGLY3xVuQhGbP9xCljBlvlcBsn+xXCyLRdpKy7SbHaloX1uRRE5hQANSKb7m1MzcMGnDU4ZLUToYHbDGc61BhLdjxoZOAy52i34SD59BADMENoMBBLJOOXfUcXKiOTJNKowCE2O4GyFbp+l1cZ5GHMQM+OvMef70yubyzk8RbhD3A2hO94CPNtdSeF90qMuiAy7/5Ciy48Sk+33xMplGtah1QO8ihWy/WpvbnILkPnDT9yPMTKca9GzIEJRKNLKhDDJPhVNmSFtLEwpdnPv2rgAmrmfI+F5NfI+O2/yhdXKPp2IaKqjfrJPVqvhNLFV5EJfYxpjhIo8Kxq7X5Uh7KP4VZG2/Z/ShWGmSsVcKzTUEnt3RCqQZVgXxcQJaiOLzN4dnx0gZEJ64U9i4z+3gbJVP8AI+yBfRRpyHwFCv+rl9eehb4528o7cco1WMMA4QPlckq77nsZ4Qc+9OAttHBq1rGaUzj5muyQhsGQqFkki3GLP5of9auoACoacR+tfDINieDxh6pOJdaIvtMus77v6AQbo2vWXZj8xPdrZxDMGVgeK5fz5k+MMCn6yQGX33l6U/y0V7zHLWt0B6EOG/wdPDvwL0X43Ljx2FvQe5BpXxWvMIxZLf+Cs7cmnggea+gdl63cTH2nyf/tbR1/bcHol5+7KjsZHA47G24kPUgy3IOmfb7UBzI044xXRwtjZwgsXwCsBcysWt435M1jK4RAv4ejtDsjmSg3K4LsuABGwGton1ZD1CpCzATvTM1Ha7gJ5xJYd7Sy78dCj7LK54eQcS/OW2teuGHAcltfY2xMrPUUUX+UNXJLNQostnBRf7NkE+KaU8w8gDYgoJa/soBvlR/cXfGFqFjzWYwK/WdpByQSQkYcRubPCOLfEGpx+Xg2B+QVvL7+IuPKWxtJQn+9b6lzfRVTCtdaDBEktOGCrKiZCsmQGZaPyDK25RiOLCrSKlcenGQx8jTR4MraSVAR6weS3c1dz5QSNFZDNN2N3PoXAVvtHwz8NE+AH4yxtQA99ZRX9r5lqfjByfgJx1tcQhOjF8Aa9OAsMM2qKWicKXjrNYJQBV/W43NI7O17bxsa8xr95MxHr9BJzSqjQ7hlsV3b8e6C7u5r+dxnl6CJQAe6j//YrQRAsIfJFXfda03y6Bci1/kZugbbInhW7eSE1AdwBkG8J71sD+wVehX917HhdAQHLh0XXyulqg4sCw4zcF0UgzoFhWAmZxW1m3Cpv/VB3IXUvFOXfFT3PIKluHVEZlBMep/0WPAkN1cOkULUOkYDiRhkWPMBXR4XXSV1DJCIXCsUSQeCfGZGQtGGdN3494FLAkVt3J0NPNv8Dqbq/9U3PW42mLrAGauMbb01pfB3sI9iAJvtKzxD3YiH9M5JVmIpNNerPlIvne40Tj/E9HWHtifDakMMx/N/rqemAUhuo9ET0kgpOUqTIDN/fTna7rv+WyqEwzy8yKkfA1cq0c36JU8nMOlkHxdbInFC7+pq3LGdqWKwp9XJMkoJDTazSc/gju0L2DP86KYvHsGkeJNkONarHXyHP6gLdGXwd0JNF0iYhAd7o8mqw+wjHeZqi+Fp0uJ82doPW7XHK6kqEugAAAAAAjDl9wUAAAAAAAAAAAAAAAAAAAAA==" alt="OneHack logo"></div>
       <div class="project-body">
-        <div class="project-title">TASKOneHack: Hackathon Platform UI/UX</div>
+        <div class="project-title">OneHack: Hackathon Platform UI/UX</div>
         <div class="project-desc">A complete hackathon website design in Figma, emphasizing intuitive user flows, responsive layouts and modern design principles.</div>
         <div class="project-block"><div class="label">Problem solved</div><div class="val">Designing a clear, low-friction registration and information flow for hackathon participants.</div></div>
         <div class="project-block"><div class="label">Key features</div><div class="val">Full UI/UX flow in Figma covering registration, schedule, and team-formation screens.</div></div>
@@ -638,7 +664,7 @@
   <div class="ach-grid stagger">
     <div class="ach-card reveal" style="--i:0"><div class="ach-title">Top Performing Lead: All Kerala IEDCs</div><div class="ach-desc">Selected as one of the top-performing leads across all IEDCs in Kerala.</div></div>
     <div class="ach-card reveal" style="--i:1"><div class="ach-title">Presented at ISRO</div><div class="ach-desc">Presented a project-cum-startup idea, Methane Gas Leak Detection using CubeSat Swarm Satellites, in front of senior scientists at ISRO.</div></div>
-    <div class="ach-card reveal" style="--i:2"><div class="ach-title">University Topper, 2022–2023</div><div class="ach-desc">Recognized for academic excellence, second-highest rank in the department that year.</div></div>
+    <div class="ach-card reveal" style="--i:2"><div class="ach-title">University Topper, 2022–2023</div><div class="ach-desc">Recognized for academic excellence, second-highest rank in the university that year.</div></div>
     <div class="ach-card reveal" style="--i:3"><div class="ach-title">IEEE Xtreme 19.0</div><div class="ach-desc">Participated in the 24-hour global competitive programming challenge, solving algorithmic problems under real-time constraints.</div></div>
     <div class="ach-card reveal" style="--i:4"><div class="ach-title">Hack.Net</div><div class="ach-desc">Competed among 150 teams in a hackathon organized by CSA RIT.</div></div>
     <div class="ach-card reveal" style="--i:5"><div class="ach-title">Pixel to Page Hackathon</div><div class="ach-desc">Designed UI prototypes among 80 competing teams, hosted by GEC Siwan.</div></div>
@@ -772,17 +798,23 @@ window.addEventListener('load', () => {
 // ---------- Scroll progress + nav bg ----------
 const progress = document.getElementById('progress');
 const nav = document.getElementById('nav');
+const backToTop = document.getElementById('backToTop');
 window.addEventListener('scroll', () => {
   const h = document.documentElement;
   const scrolled = (h.scrollTop) / (h.scrollHeight - h.clientHeight) * 100;
   progress.style.width = scrolled + '%';
   nav.classList.toggle('scrolled', h.scrollTop > 20);
+  backToTop.classList.toggle('show', h.scrollTop > 400);
+});
+backToTop.addEventListener('click', () => {
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 });
 
 // ---------- Mobile nav ----------
 const navToggle = document.getElementById('navToggle');
 const navLinks = document.getElementById('navLinks');
 navToggle.addEventListener('click', () => navLinks.classList.toggle('open'));
+  document.getElementById('navClose').addEventListener('click', () => navLinks.classList.remove('open'));
 document.querySelectorAll('#navLinks a').forEach(a => a.addEventListener('click', () => navLinks.classList.remove('open')));
 
 // ---------- Active nav highlighting ----------
